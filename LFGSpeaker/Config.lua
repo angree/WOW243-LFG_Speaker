@@ -20,10 +20,21 @@
 LFGSpeakerNS = LFGSpeakerNS or {}
 local ns = LFGSpeakerNS
 
-local PANEL_W, PANEL_H = 700, 720
+local PANEL_W, PANEL_H = 700, 700
 local PAD, ROW = 14, 22
 
 local panel  -- created lazily
+
+-- Move a slider's value-text label off the default centered position
+-- so it doesn't sit on top of the slider bar itself.  fraction=0.75 =>
+-- text centered at 75% of slider width.
+local function shiftSliderTextRight(slider, fraction)
+    local txt = _G[slider:GetName() .. "Text"]
+    if not txt then return end
+    txt:ClearAllPoints()
+    local w = slider:GetWidth() or (PANEL_W - 2*PAD - 8)
+    txt:SetPoint("BOTTOM", slider, "TOP", w * (fraction - 0.5), 2)
+end
 
 -- ---------------------------------------------------------------------------
 -- Helpers
@@ -114,6 +125,7 @@ local function build()
         ns.db.cooldownGlobal = v
         cdSliderText:SetText("Cooldown: " .. v .. "s")
     end)
+    shiftSliderTextRight(cdSlider, 0.75)
     panel.cdSlider = cdSlider
     yCursor = yCursor - 36
 
@@ -136,6 +148,7 @@ local function build()
         ns.db.snippetGapMs = v
         gapSliderText:SetText("Gap: " .. v .. " ms")
     end)
+    shiftSliderTextRight(gapSlider, 0.75)
     panel.gapSlider = gapSlider
     yCursor = yCursor - 36
 
@@ -162,6 +175,7 @@ local function build()
             sndSliderText:SetText("Sender cooldown: " .. v .. "s")
         end
     end)
+    shiftSliderTextRight(sndSlider, 0.75)
     panel.sndSlider = sndSlider
     yCursor = yCursor - 36
 
@@ -248,20 +262,22 @@ local function build()
         local header = makeLabel(panel, group.name, "GameFontNormal")
         header:SetTextColor(1, 0.82, 0)
         header:SetPoint("TOPLEFT", panel, "TOPLEFT", x, y)
+        y = y - 18
 
-        -- For 5-man groups: tiny "N H" column headers above checkboxes
+        -- For 5-man groups: tiny "N H" column headers on their own row
+        -- between the group title and the first checkbox row, so the
+        -- letters don't overlap with header text or the first instance.
         if not isRaidGroup then
             local nLbl = panel:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
-            nLbl:SetPoint("TOPLEFT", panel, "TOPLEFT", x + 6, y - 2)
+            nLbl:SetPoint("TOPLEFT", panel, "TOPLEFT", x + 6, y)
             nLbl:SetText("N")
             nLbl:SetTextColor(0.7, 0.9, 1)
             local hLbl = panel:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
-            hLbl:SetPoint("TOPLEFT", panel, "TOPLEFT", x + 28, y - 2)
+            hLbl:SetPoint("TOPLEFT", panel, "TOPLEFT", x + 28, y)
             hLbl:SetText("H")
             hLbl:SetTextColor(1, 0.7, 0.7)
+            y = y - 14
         end
-
-        y = y - 18
 
         for _, key in ipairs(group.keys) do
             local inst = ns.INSTANCE_BY_KEY[key]
@@ -304,7 +320,7 @@ local function build()
     end
 
     -- Footer
-    local footer = makeLabel(panel, "v0.4.3  -  /lfgspeaker help for commands", "GameFontDisableSmall")
+    local footer = makeLabel(panel, "v0.4.4  -  /lfgspeaker help for commands", "GameFontDisableSmall")
     footer:SetPoint("BOTTOM", panel, "BOTTOM", 0, 10)
 end
 
