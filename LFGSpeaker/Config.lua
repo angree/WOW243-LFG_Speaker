@@ -320,7 +320,7 @@ local function build()
     end
 
     -- Footer
-    local footer = makeLabel(panel, "v0.4.4  -  /lfgspeaker help for commands", "GameFontDisableSmall")
+    local footer = makeLabel(panel, "v0.4.5  -  /lfgspeaker help for commands", "GameFontDisableSmall")
     footer:SetPoint("BOTTOM", panel, "BOTTOM", 0, 10)
 end
 

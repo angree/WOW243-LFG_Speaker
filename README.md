@@ -4,7 +4,7 @@ Audio announcer for LFG (Looking-For-Group) bulletins on **World of Warcraft 2.4
 
 > **Target client:** WoW 2.4.3 only.
 
-![version](https://img.shields.io/badge/version-0.4.4-blue)
+![version](https://img.shields.io/badge/version-0.4.5-blue)
 ![interface](https://img.shields.io/badge/interface-20400-orange)
 ![license](https://img.shields.io/badge/license-MIT-green)
 
@@ -108,12 +108,13 @@ If a message hits any of these markers, it's silently dropped even if it otherwi
 
 ## Installation
 
-1. Download the latest release ZIP and extract so that you get an `LFGSpeaker` folder inside `World of Warcraft\Interface\AddOns\`.
+1. Download the latest `wow243-lfgspeaker-vX.Y.Z.zip` from [Releases](https://github.com/angree/WOW243-LFG_Speaker/releases) and extract so that you get an `LFGSpeaker` folder inside `World of Warcraft\Interface\AddOns\`.
 2. (Optional but recommended for ruRU realms) Install [RussianTranslator](https://github.com/angree/wow243-russiantranslator) alongside.
 3. Launch WoW, ensure the addon is enabled in the character-select AddOns list, log in.
 4. On first login you should see:
    ```
-   [LFGS] LFGSpeaker v0.4.4 — made by Grzegorz Korycki (Poczwarka)
+   [LFGS] LFGSpeaker v0.4.5 — made by Grzegorz Korycki (Poczwarka)
+   [LFGS] build 2026-05-13
    [LFGS] type /lfgs help, /lfgs to open config, /lfgs say <text> to test composition
    ```
 5. Type `/lfgs say LFM Kara 1 healer` to verify the audio chain.

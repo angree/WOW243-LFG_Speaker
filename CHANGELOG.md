@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.4.5] - 2026-05-13 — config UI polish
+
+- N/H column letters moved to a dedicated row between group header and the first instance row (no more overlap with header text).
+- Slider value labels (`Cooldown: 30s`, `Gap: 70 ms`, `Sender cooldown: 150s`) shifted to 75% of the slider bar — out of the way of the thumb.
+- Config panel height tightened (770 → 700) to remove dead space below the instance list.
+
 ## [0.4.4] - 2026-05-13 — first public release
 
 Initial public release. Working end-to-end snippet-based TTS announcer.
