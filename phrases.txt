@@ -1,0 +1,94 @@
+# LFG Reader — TTS phrase list
+#
+# Format: <sound_key>|<english phrase>
+# Lines starting with # are comments.
+# generate_sounds.py reads this file to know what to render.
+#
+# Naming scheme:
+#   {instance_key}_{difficulty}    for 5-mans (heroic/normal split)
+#   {instance_key}                 for raids (no difficulty needed)
+#
+# Voice: Callum (ElevenLabs voice ID N2lVS1w4EtoT3dr4eOWO)
+# Model: eleven_multilingual_v2 (NOT v3 — degrades fidelity)
+#
+# Total: ~40 5-man clips + 8 raid clips = ~48 phrases.
+
+# ======== Hellfire Citadel ========
+ramp_heroic|Hellfire Ramparts, heroic
+ramp_normal|Hellfire Ramparts, normal
+ramp|Hellfire Ramparts
+
+bf_heroic|Blood Furnace, heroic
+bf_normal|Blood Furnace, normal
+bf|Blood Furnace
+
+shh_heroic|Shattered Halls, heroic
+shh_normal|Shattered Halls, normal
+shh|Shattered Halls
+
+# ======== Coilfang Reservoir ========
+sp_heroic|Slave Pens, heroic
+sp_normal|Slave Pens, normal
+sp|Slave Pens
+
+ub_heroic|Underbog, heroic
+ub_normal|Underbog, normal
+ub|Underbog
+
+sv_heroic|Steamvault, heroic
+sv_normal|Steamvault, normal
+sv|Steamvault
+
+# ======== Auchindoun ========
+mt_heroic|Mana Tombs, heroic
+mt_normal|Mana Tombs, normal
+mt|Mana Tombs
+
+auch_heroic|Auchenai Crypts, heroic
+auch_normal|Auchenai Crypts, normal
+auch|Auchenai Crypts
+
+seh_heroic|Sethekk Halls, heroic
+seh_normal|Sethekk Halls, normal
+seh|Sethekk Halls
+
+sl_heroic|Shadow Labyrinth, heroic
+sl_normal|Shadow Labyrinth, normal
+sl|Shadow Labyrinth
+
+# ======== Tempest Keep wings ========
+bot_heroic|Botanica, heroic
+bot_normal|Botanica, normal
+bot|Botanica
+
+mech_heroic|Mechanar, heroic
+mech_normal|Mechanar, normal
+mech|Mechanar
+
+arc_heroic|Arcatraz, heroic
+arc_normal|Arcatraz, normal
+arc|Arcatraz
+
+# ======== Caverns of Time ========
+oh_heroic|Old Hillsbrad, heroic
+oh_normal|Old Hillsbrad, normal
+oh|Old Hillsbrad
+
+bm_heroic|Black Morass, heroic
+bm_normal|Black Morass, normal
+bm|Black Morass
+
+# ======== Sunwell ========
+mgt_heroic|Magisters Terrace, heroic
+mgt|Magisters Terrace
+
+# ======== Raids ========
+kara|Karazhan
+gruul|Gruul's Lair
+magth|Magtheridon
+ssc|Serpentshrine Cavern
+tk|Tempest Keep
+hyjal|Hyjal Summit
+bt|Black Temple
+za|Zul'Aman
+swp|Sunwell Plateau

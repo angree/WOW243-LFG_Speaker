@@ -1,0 +1,14 @@
+## Interface: 20400
+## Title: LFGSpeaker
+## Notes: Audio announcer for LFG bulletins.  Plays a TTS cue when chat mentions a known instance.
+## Author: Grzegorz Korycki (Poczwarka)
+## Version: 0.4.4
+## OptionalDeps: RussianTranslator
+## SavedVariables: LFGS_DB
+
+Patterns.lua
+Snippets.lua
+Sounds.lua
+Minimap.lua
+Config.lua
+Core.lua
