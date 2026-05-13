@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.4.7] - 2026-05-13 — LFG vs LFM semantic fix
+
+- **`LFG` is now anti-LFG.** In TBC chat slang, "Looking For Group" means a single player wanting to join someone else's group — the inverse of what we want to announce.  Recruiters use "LFM" (Looking For More).  Previously both were treated as positive markers.
+- Added more solo-searcher anti-LFG phrases: `lf group`, `lf raid`, `lf invite`, `looking for group`, `looking for invite`, `looking for a group`, `looking for inv`.
+
 ## [0.4.6] - 2026-05-13 — false-positive fixes
 
 - **Instance disambiguation:** parser now picks the LONGEST matching alias across all instances in a message.  Fixes `"LFM 4 RDPS (Lock, SP, Mage) Gruul"` triggering Slave Pens (sp = Shadow Priest class abbrev here) — now correctly picks Gruul.

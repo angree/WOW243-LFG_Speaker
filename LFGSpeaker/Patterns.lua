@@ -170,8 +170,13 @@ ns.LFG_MARKERS_LONG = {
     "need.-tank", "need.-heal", "need.-dps", "need.-dd",
     "/w me", "/w %+",
 }
+-- Positive LFG markers — recruiter intent ("Looking For More").
+-- Note: "lfg" is intentionally NOT here.  "LFG" in TBC chat slang
+-- specifically means "Looking For Group" — a single player wanting to
+-- join someone else's group, the inverse of what we want to announce.
+-- It's in ANTI_LFG_SHORT below.
 ns.LFG_MARKERS_SHORT = {
-    "lfm", "lfg",
+    "lfm",
     "lf1m", "lf2m", "lf3m", "lf4m", "lf5m",
     "lf",
 }
@@ -223,6 +228,11 @@ ns.ANTI_LFG_LONG = {
     "i'll go", "ill go",
     "i'm going", "im going",
     "ima go",
+    -- Solo searcher: "LF group", "LF raid", "LF invite"
+    "lf group", "lf raid", "lf invite",
+    "looking for invite", "looking for a group",
+    "looking for group",
+    "looking for inv",
     -- GM / bug-report / help-request chatter — never LFG
     "bug on", "bug in", "bug with", "bug at",
     "report a bug", "report bug",
@@ -232,7 +242,8 @@ ns.ANTI_LFG_LONG = {
 -- Bare "guild" is anti-LFG.  Trade-off: rare "my guild needs healer"
 -- type LFG bulletins also get blocked, but the FP rate from guild
 -- recruitment ads is much higher.  User explicitly opted into this.
-ns.ANTI_LFG_SHORT = { "wts", "wtb", "wtt", "bug", "guild" }
+-- "lfg" is anti-LFG (solo searcher convention; recruiters use "lfm").
+ns.ANTI_LFG_SHORT = { "wts", "wtb", "wtt", "bug", "guild", "lfg" }
 
 -- ---------------------------------------------------------------------------
 -- Role detection.  See ROLES_ORDERED comment for the consume strategy.

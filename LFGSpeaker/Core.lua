@@ -633,7 +633,7 @@ boot:SetScript("OnEvent", function(self, event)
     if ns.InitConfig  then ns.InitConfig()  end
     local snipCount = 0
     if ns.SNIPPETS then for _ in pairs(ns.SNIPPETS) do snipCount = snipCount + 1 end end
-    Msg("|cff55ddffLFGSpeaker v0.4.6|r — made by Grzegorz Korycki (Poczwarka)")
+    Msg("|cff55ddffLFGSpeaker v0.4.7|r — made by Grzegorz Korycki (Poczwarka)")
     Msg("build 2026-05-13")
     if snipCount == 0 then
         Msg("|cffff5555WARNING: Snippets.lua did NOT load.  Do a full client RESTART (not /reload).  TOC file-list changes need a restart on 2.4.3.|r")
