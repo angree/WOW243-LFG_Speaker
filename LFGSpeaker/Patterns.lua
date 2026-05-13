@@ -205,6 +205,8 @@ ns.ANTI_LFG_LONG = {
     "loot council",
     "raid time%s+%a+/%a+",            -- "raid time Mo/Wed" pattern
     "progress:%s+%a",                 -- "progress: Gruul 2/2, SSC..."
+    "progress%s+%a+%s+%d+/%d+",       -- "progress BT 9/9" without colon
+    "with%s+%a+%s+static",            -- "with two static" guild ad slang
     -- Solo-offer: role + " lf" (with non-letter boundary after lf)
     "tank%s+lf%f[^%a\128-\255]",
     "tanks%s+lf%f[^%a\128-\255]",
@@ -227,7 +229,10 @@ ns.ANTI_LFG_LONG = {
     "is broken", "doesn't work", "isn't working", "not working",
     "anyone know",
 }
-ns.ANTI_LFG_SHORT = { "wts", "wtb", "wtt", "bug" }
+-- Bare "guild" is anti-LFG.  Trade-off: rare "my guild needs healer"
+-- type LFG bulletins also get blocked, but the FP rate from guild
+-- recruitment ads is much higher.  User explicitly opted into this.
+ns.ANTI_LFG_SHORT = { "wts", "wtb", "wtt", "bug", "guild" }
 
 -- ---------------------------------------------------------------------------
 -- Role detection.  See ROLES_ORDERED comment for the consume strategy.
@@ -370,14 +375,27 @@ local function findAny(text, patternList)
 end
 
 local function detectInstance(text)
+    -- Scan ALL instances and pick the one whose matching alias is
+    -- longest.  This makes longer/more-specific names win over short
+    -- abbreviations.  Example:
+    --   "LFM 4 RDPS (Lock, SP, Mage) Gruul"
+    --     - sp matches with alias "sp" (length 2) — likely Shadow Priest
+    --       class abbrev, NOT Slave Pens
+    --     - gruul matches with alias "gruul" (length 5) — the real raid
+    --   → returns gruul (longer wins).
+    local bestKey, bestAlias
     for _, inst in ipairs(ns.INSTANCES) do
         for _, entry in ipairs(inst.patterns) do
             if text:find(entry.p) then
-                return inst.key, entry.o
+                if not bestAlias or #entry.o > #bestAlias then
+                    bestKey, bestAlias = inst.key, entry.o
+                end
+                break  -- one match per instance is enough; aliases are
+                       -- already sorted longest-first within an instance.
             end
         end
     end
-    return nil
+    return bestKey, bestAlias
 end
 
 function ns.hasAnyRoleToken(text)

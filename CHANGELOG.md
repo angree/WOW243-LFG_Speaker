@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.4.6] - 2026-05-13 — false-positive fixes
+
+- **Instance disambiguation:** parser now picks the LONGEST matching alias across all instances in a message.  Fixes `"LFM 4 RDPS (Lock, SP, Mage) Gruul"` triggering Slave Pens (sp = Shadow Priest class abbrev here) — now correctly picks Gruul.
+- **Guild ad detection:** added `progress XX N/M` (no colon) pattern, `with N static` phrase, and bare word `guild` as anti-LFG markers.  Catches guild ads like `"in PvE guild need players ( progress BT 9/9 ... Hyjal 5/5)"`.  Trade-off: rare "my guild needs X" LFG bulletins get filtered too.
+
 ## [0.4.5] - 2026-05-13 — config UI polish
 
 - N/H column letters moved to a dedicated row between group header and the first instance row (no more overlap with header text).
