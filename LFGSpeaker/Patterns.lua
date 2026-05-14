@@ -472,9 +472,24 @@ function ns.roleMatches(roles, myRole)
     return true
 end
 
+-- Preprocess: neutralize class-spec abbreviations that share aliases
+-- with instance short keys.  We replace just the COLLIDING part with
+-- spaces so the rest of the message (which may still contain a real
+-- instance reference) parses normally.
+--
+-- Currently handled:
+--   "bm hunt[er]?"  → Beast Mastery hunter class, NOT Black Morass.
+--     Example: "LFM Kara need bm hunter+lock"
+--       - before: "bm" matches Black Morass alias, would falsely report
+--       - after: "lfm kara need    hunter+lock" — kara wins, bm gone
+local function preprocess(text)
+    text = text:gsub("bm(%s+hunt%w*)", "  %1")
+    return text
+end
+
 function ns.parseMessage(rawMsg)
     if type(rawMsg) ~= "string" or rawMsg == "" then return nil end
-    local text = rawMsg:lower()
+    local text = preprocess(rawMsg:lower())
 
     if findAny(text, ns.ANTI_LFG) then return nil end
 

@@ -4,7 +4,7 @@ Audio announcer for LFG (Looking-For-Group) bulletins on **World of Warcraft 2.4
 
 > **Target client:** WoW 2.4.3 only.
 
-![version](https://img.shields.io/badge/version-0.4.7-blue)
+![version](https://img.shields.io/badge/version-0.4.8-blue)
 ![interface](https://img.shields.io/badge/interface-20400-orange)
 ![license](https://img.shields.io/badge/license-MIT-green)
 
@@ -113,7 +113,7 @@ If a message hits any of these markers, it's silently dropped even if it otherwi
 3. Launch WoW, ensure the addon is enabled in the character-select AddOns list, log in.
 4. On first login you should see:
    ```
-   [LFGS] LFGSpeaker v0.4.7 — made by Grzegorz Korycki (Poczwarka)
+   [LFGS] LFGSpeaker v0.4.8 — made by Grzegorz Korycki (Poczwarka)
    [LFGS] build 2026-05-13
    [LFGS] type /lfgs help, /lfgs to open config, /lfgs say <text> to test composition
    ```

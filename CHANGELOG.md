@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.4.8] - 2026-05-14 — fix "BM hunter" → Black Morass false positive
+
+- **"bm hunter" no longer triggers Black Morass.**  Added a preprocessing step that strips the colliding `bm` from `"bm hunt[er]?"` (Beast Mastery hunter class abbrev) before instance matching.  The rest of the message — including any genuine instance reference like `kara` or actual `bm hc` — is preserved.
+  - Before: `"LFM Kara need bm hunter+lock"` → falsely matched Black Morass
+  - After: kara matches, the class-context bm is invisible to instance detector
+
 ## [0.4.7] - 2026-05-13 — LFG vs LFM semantic fix
 
 - **`LFG` is now anti-LFG.** In TBC chat slang, "Looking For Group" means a single player wanting to join someone else's group — the inverse of what we want to announce.  Recruiters use "LFM" (Looking For More).  Previously both were treated as positive markers.
