@@ -116,7 +116,16 @@ local function InitDB()
         end
     end
 
-    if db.myRole == nil then db.myRole = "any" end
+    -- v0.4.9+: multi-role.  Migrate old single-string db.myRole into
+    -- a table db.myRoles preserving the previous selection.
+    if db.myRoles == nil then
+        if type(db.myRole) == "string" then
+            db.myRoles = { [db.myRole] = true }
+        else
+            db.myRoles = { any = true }
+        end
+    end
+    db.myRole = nil  -- legacy field; clear after migration
 
     db.mutedKeys         = db.mutedKeys         or {}
     db.lastFireTimes     = db.lastFireTimes     or {}
@@ -439,7 +448,7 @@ local function filterImpl(eventName, msg, sender)
     end
 
     -- My role matches?
-    if not ns.roleMatches(parsed.roles, db.myRole) then
+    if not ns.roleMatches(parsed.roles, db.myRoles) then
         logMatch(eventName, msg, parsed, nil, "role_mismatch")
         return
     end
@@ -633,8 +642,8 @@ boot:SetScript("OnEvent", function(self, event)
     if ns.InitConfig  then ns.InitConfig()  end
     local snipCount = 0
     if ns.SNIPPETS then for _ in pairs(ns.SNIPPETS) do snipCount = snipCount + 1 end end
-    Msg("|cff55ddffLFGSpeaker v0.4.8|r — made by Grzegorz Korycki (Poczwarka)")
-    Msg("build 2026-05-13")
+    Msg("|cff55ddffLFGSpeaker v0.4.9|r — made by Grzegorz Korycki (Poczwarka)")
+    Msg("build 2026-05-15")
     if snipCount == 0 then
         Msg("|cffff5555WARNING: Snippets.lua did NOT load.  Do a full client RESTART (not /reload).  TOC file-list changes need a restart on 2.4.3.|r")
     end

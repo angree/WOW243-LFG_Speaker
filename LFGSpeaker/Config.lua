@@ -179,30 +179,23 @@ local function build()
     panel.sndSlider = sndSlider
     yCursor = yCursor - 36
 
-    -- ---- My role (radio-style: clicking one un-checks the others) ----
-    local roleLabel = makeLabel(panel, "My role (announce only what wants this role):")
+    -- ---- My roles (multi-checkbox: pick any combination) ----
+    local roleLabel = makeLabel(panel, "My role(s) - check any combination (e.g. dual-spec priest = Healer + DPS):")
     roleLabel:SetPoint("TOPLEFT", panel, "TOPLEFT", PAD, yCursor)
     yCursor = yCursor - 18
 
-    panel.roleRadios = {}  -- roleKey -> CheckButton
-    local function setRole(roleKey)
-        ns.db.myRole = roleKey
-        for k, cb in pairs(panel.roleRadios) do
-            cb:SetChecked(k == roleKey)
-        end
-    end
-
+    panel.roleCheckboxes = {}  -- roleKey -> CheckButton
     local choices = ns.MY_ROLE_CHOICES or {}
     local PER_ROW = 3
     local cellW = (PANEL_W - 2*PAD) / PER_ROW
     for i, choice in ipairs(choices) do
         local row = math.floor((i - 1) / PER_ROW)
         local col = (i - 1) % PER_ROW
-        local cb = makeCheck(panel, choice.label, function()
-            setRole(choice.key)
+        local cb = makeCheck(panel, choice.label, function(v)
+            ns.db.myRoles[choice.key] = v
         end)
         cb:SetPoint("TOPLEFT", panel, "TOPLEFT", PAD + col * cellW, yCursor - row * ROW)
-        panel.roleRadios[choice.key] = cb
+        panel.roleCheckboxes[choice.key] = cb
     end
     yCursor = yCursor - 2 * ROW - 8
 
@@ -226,6 +219,47 @@ local function build()
     -- ---- Instances (per-difficulty N/H checkboxes per 5-man) ----
     local instLabel = makeLabel(panel, "Instances to announce  (N = normal, H = heroic):")
     instLabel:SetPoint("TOPLEFT", panel, "TOPLEFT", PAD, yCursor)
+
+    -- Bulk toggle buttons.  Each click flips all N (or all H)
+    -- checkboxes for 5-mans.  Logic: if any is unchecked → check all;
+    -- if all checked → uncheck all.
+    local function toggleAllDiff(diffKey)
+        local allChecked = true
+        for _, inst in ipairs(ns.INSTANCES) do
+            if not ns.RAID_KEYS[inst.key] then
+                local entry = ns.db.enabledInstances[inst.key]
+                if not entry or not entry[diffKey] then
+                    allChecked = false
+                    break
+                end
+            end
+        end
+        local newValue = not allChecked
+        for _, inst in ipairs(ns.INSTANCES) do
+            if not ns.RAID_KEYS[inst.key] then
+                local entry = ns.db.enabledInstances[inst.key]
+                if entry then entry[diffKey] = newValue end
+            end
+        end
+        for _, cbset in pairs(panel.instCheckboxes) do
+            if cbset[diffKey] then
+                cbset[diffKey]:SetChecked(newValue)
+            end
+        end
+    end
+
+    local toggleNBtn = CreateFrame("Button", nil, panel, "UIPanelButtonTemplate")
+    toggleNBtn:SetSize(100, 20)
+    toggleNBtn:SetPoint("TOPRIGHT", panel, "TOPRIGHT", -120 - PAD, yCursor - 1)
+    toggleNBtn:SetText("Toggle all N")
+    toggleNBtn:SetScript("OnClick", function() toggleAllDiff("N") end)
+
+    local toggleHBtn = CreateFrame("Button", nil, panel, "UIPanelButtonTemplate")
+    toggleHBtn:SetSize(100, 20)
+    toggleHBtn:SetPoint("TOPRIGHT", panel, "TOPRIGHT", -PAD, yCursor - 1)
+    toggleHBtn:SetText("Toggle all H")
+    toggleHBtn:SetScript("OnClick", function() toggleAllDiff("H") end)
+
     yCursor = yCursor - 18
 
     panel.instCheckboxes = {}
@@ -320,7 +354,7 @@ local function build()
     end
 
     -- Footer
-    local footer = makeLabel(panel, "v0.4.8  -  /lfgspeaker help for commands", "GameFontDisableSmall")
+    local footer = makeLabel(panel, "v0.4.9  -  /lfgspeaker help for commands", "GameFontDisableSmall")
     footer:SetPoint("BOTTOM", panel, "BOTTOM", 0, 10)
 end
 
@@ -336,10 +370,10 @@ local function refresh()
     panel.gapSlider:SetValue(ns.db.snippetGapMs or 180)
     panel.sndSlider:SetValue(ns.db.cooldownPerSender or 120)
 
-    -- Role radios
-    local myRole = ns.db.myRole or "any"
-    for k, cb in pairs(panel.roleRadios) do
-        cb:SetChecked(k == myRole)
+    -- Role checkboxes (multi-select)
+    local myRoles = ns.db.myRoles or {}
+    for k, cb in pairs(panel.roleCheckboxes) do
+        cb:SetChecked(myRoles[k] and true or false)
     end
 
     -- Channel groups

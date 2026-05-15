@@ -460,16 +460,33 @@ function ns.parseGroupFill(text)
     return nil
 end
 
-function ns.roleMatches(roles, myRole)
-    if not myRole or myRole == "any" then return true end
+-- Multi-role matching.  myRoles is a TABLE { any=bool, tank=bool, heal=bool,
+-- dps=bool, mdps=bool, rdps=bool } — any combination can be enabled.
+-- This supports dual-spec scenarios (e.g. {heal=true, dps=true} for a
+-- holy/shadow priest who plays either spec).
+function ns.roleMatches(roles, myRoles)
+    -- No filter configured / Any enabled → match all
+    if not myRoles or myRoles.any then return true end
+
     local total = roles.tank + roles.heal + roles.mdps + roles.rdps + roles.dps
-    if total == 0 then return true end  -- recruit-everyone bulletin
-    if myRole == "tank" then return roles.tank > 0 end
-    if myRole == "heal" then return roles.heal > 0 end
-    if myRole == "dps"  then return (roles.dps + roles.mdps + roles.rdps) > 0 end
-    if myRole == "mdps" then return roles.mdps > 0 or roles.dps > 0 end
-    if myRole == "rdps" then return roles.rdps > 0 or roles.dps > 0 end
-    return true
+    if total == 0 then return true end  -- recruit-everyone bulletin, no roles listed
+
+    -- Match if ANY enabled role of mine is wanted in the bulletin
+    if myRoles.tank and roles.tank > 0 then return true end
+    if myRoles.heal and roles.heal > 0 then return true end
+    if myRoles.dps  and (roles.dps + roles.mdps + roles.rdps) > 0 then return true end
+    if myRoles.mdps and (roles.mdps > 0 or roles.dps > 0) then return true end
+    if myRoles.rdps and (roles.rdps > 0 or roles.dps > 0) then return true end
+
+    -- Nothing of mine is wanted (or all of my checkboxes unchecked).
+    -- "no filter" interpretation: if user unchecked everything, treat as
+    -- "any" rather than "match nothing" — silence-by-misconfig is worse
+    -- than over-announce.
+    local anyChecked = myRoles.tank or myRoles.heal or myRoles.dps
+                       or myRoles.mdps or myRoles.rdps
+    if not anyChecked then return true end
+
+    return false
 end
 
 -- Preprocess: neutralize class-spec abbreviations that share aliases

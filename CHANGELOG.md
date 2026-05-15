@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.4.9] - 2026-05-15 — multi-role + bulk N/H toggle
+
+- **Multi-role selection.**  "My role" became "My role(s)": pick any combination of Tank / Healer / DPS / DPS-Melee / DPS-Ranged.  Bulletin matches if it requests at least one of your enabled roles (or specifies no role at all).  Supports dual-spec characters (e.g. a holy/shadow priest checking Healer + DPS).  Empty selection is treated as Any.  Migrates old `db.myRole` (string) to `db.myRoles` (table) on first load.
+- **Bulk N/H toggle buttons.**  Two buttons in the top-right of the instances section flip all Normal (or all Heroic) checkboxes across 5-mans at once.  If any is unchecked → check all; if all checked → uncheck all.
+
 ## [0.4.8] - 2026-05-14 — fix "BM hunter" → Black Morass false positive
 
 - **"bm hunter" no longer triggers Black Morass.**  Added a preprocessing step that strips the colliding `bm` from `"bm hunt[er]?"` (Beast Mastery hunter class abbrev) before instance matching.  The rest of the message — including any genuine instance reference like `kara` or actual `bm hc` — is preserved.

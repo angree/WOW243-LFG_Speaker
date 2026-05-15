@@ -4,7 +4,7 @@ Audio announcer for LFG (Looking-For-Group) bulletins on **World of Warcraft 2.4
 
 > **Target client:** WoW 2.4.3 only.
 
-![version](https://img.shields.io/badge/version-0.4.8-blue)
+![version](https://img.shields.io/badge/version-0.4.9-blue)
 ![interface](https://img.shields.io/badge/interface-20400-orange)
 ![license](https://img.shields.io/badge/license-MIT-green)
 
@@ -83,9 +83,9 @@ Open with `/lfgs` or left-click the minimap button.
 - **Per-sound cooldown** (5-300 s) — minimum time between the same instance/difficulty sentence playing again.
 - **Snippet gap** (0-500 ms) — silence between voice clips when composing a sentence. Lower = snappier, higher = more spoken-word pace.
 - **Per-sender sound cooldown** (0-600 s) — same player's bulletins are silenced (sound only) for this long after their last play. Default 120 s catches typical 30-second re-spam.
-- **My role** (Any / Tank / Healer / DPS / DPS-Melee / DPS-Ranged) — when set to anything other than Any, only bulletins requesting that role (or with no specific role) trigger a sound.
+- **My role(s)** — pick any combination of Any / Tank / Healer / DPS / DPS-Melee / DPS-Ranged.  Multi-spec ready (e.g. priest can check Healer + DPS).  Bulletin must want at least one of your roles to trigger a sound.  Empty selection is treated as Any.
 - **Listen on** — toggle entire channel groups: Channels (public channels like Global, Trade), Guild + Officer, Group (Party / Raid / BG), Local (Say / Yell).
-- **Instances** — three columns, each 5-man has two ticks `[N] [H]` (normal / heroic, independent). Raids have a single tick.
+- **Instances** — three columns, each 5-man has two ticks `[N] [H]` (normal / heroic, independent). Raids have a single tick. Two bulk buttons in the top-right toggle all-N or all-H across every 5-man at once.
 
 ## Minimap button
 
@@ -113,7 +113,7 @@ If a message hits any of these markers, it's silently dropped even if it otherwi
 3. Launch WoW, ensure the addon is enabled in the character-select AddOns list, log in.
 4. On first login you should see:
    ```
-   [LFGS] LFGSpeaker v0.4.8 — made by Grzegorz Korycki (Poczwarka)
+   [LFGS] LFGSpeaker v0.4.9 — made by Grzegorz Korycki (Poczwarka)
    [LFGS] build 2026-05-13
    [LFGS] type /lfgs help, /lfgs to open config, /lfgs say <text> to test composition
    ```
